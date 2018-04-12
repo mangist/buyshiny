@@ -1,0 +1,46 @@
+Tables for database
+
+User - userId, username, email, password_hash, email_verified, timezone, notification_flag, status (active/deleted/banned)
+UserVerify - userId, token, datetime_used_utc (for email verification)
+PasswordReset - userId, token, datetime_used_utc, expiration_utc
+
+Post - user, date, selling or buying flag, title, image_url 
+       flair - gold/silver/plat/spot/graded/free ship/paypal/gw/crypto
+	   status (active/pending/sold/fulfilled), image uploads, up_votes, down_votes
+	   shipping info - just a text box for now 
+PostItem - postId, itemId, description, metal, year, condition, qty, price, status (active/pending/sold), qty_remaining, optional image_url, datetime_utc_last_update
+PostRead - postId, userId (to flag which posts have been clicked on)
+PostVote - postId, userId, up, down
+
+Reply - replyId, postId, userId, datetime_utc, message, up_votes, down_votes, trade_verified
+ReplyRead - replyId, userId 
+ReplyVote - replyId, userId, up, down
+
+PrivateMessage - sender_userID, recipient_userID, datetime_utc, subject, message, read_flag
+Feedback - feedbackId, replyId (null), userId, for_userId, datetime_utc, counter (default=1, but needed for shiny import) rating_stars (1-5), comment
+
+-- Not sure if these are needed yet or not
+Item - itemId, description, metalId, purityId, weight, uom  (e.g. American Silver Eagle, Silver, 999, 1.0, troy oz) - year not on the item it goes on the post
+Metal - metalId, description (Gold/Silver/Platinum only supported)
+Uom (uomId, description, troy_oz_conversion) - initially oz, g, kg
+Purity (purityId, description) (40%, 90%, 999, 9999, 99999)
+
+Business rules
+only one for sale post per day per user? undecided
+email verification for new users - click link, verified 
+physical mailing address verification - send a unique code in an envelope, they must enter the code to validate
+drivers license upload?
+import reddit feedback when registering - will need to be manual for now
+can display spot prices in the website header or footer - get live price from Kitco
+price in post can be fixed or $premium over spot so it automatically adjusts ?? nice feature
+search by item type buy/sell etc.
+filter posts by flair - only show gold or silver or free shipping or crypto etc.
+
+PHASE 2 
+
+Auction - auctionId, user, date, itemId, description, qty, starting price, reserve price, auction_end_time, status (active/reserve not met/finished)
+Bid - bidId, auctionId, userId, datetime_utc, price
+
+allow markdown syntax in posts
+direct payment through Paypal / GW / crypto to me - act as escrow - ship to my PO box
+allow metal purity verification for a small fee (I will purchase a verifier machine)
