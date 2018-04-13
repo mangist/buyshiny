@@ -4,24 +4,10 @@ using System.Collections.Generic;
 
 namespace JH.BuyShiny.Database.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Roles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
-                    Active = table.Column<bool>(nullable: false),
-                    Description = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Timezones",
                 columns: table => new
@@ -40,7 +26,8 @@ namespace JH.BuyShiny.Database.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:AutoIncrement", true),
                     Active = table.Column<bool>(nullable: false),
                     Created = table.Column<DateTime>(nullable: false),
                     EmailAddress = table.Column<string>(nullable: true),
@@ -67,7 +54,7 @@ namespace JH.BuyShiny.Database.Migrations
                     Code = table.Column<string>(nullable: false),
                     ActivatedDate = table.Column<DateTime>(nullable: true),
                     ResetRequestDate = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -94,7 +81,7 @@ namespace JH.BuyShiny.Database.Migrations
                     Status = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     UpVotes = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -108,26 +95,21 @@ namespace JH.BuyShiny.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRole",
+                name: "Roles",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false),
-                    RoleId = table.Column<int>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:AutoIncrement", true),
+                    Active = table.Column<bool>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRole", x => new { x.UserId, x.RoleId });
-                    table.UniqueConstraint("AK_UserRole_RoleId_UserId", x => new { x.RoleId, x.UserId });
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserRole_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserRole_Users_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Roles_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -139,7 +121,7 @@ namespace JH.BuyShiny.Database.Migrations
                 {
                     Token = table.Column<string>(nullable: false),
                     ExpirationDateUtc = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
+                    UserId = table.Column<int>(nullable: true),
                     VerifiedAtUtc = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
@@ -158,8 +140,7 @@ namespace JH.BuyShiny.Database.Migrations
                 columns: table => new
                 {
                     PostId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -171,11 +152,11 @@ namespace JH.BuyShiny.Database.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostReads_Users_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_PostReads_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -185,8 +166,7 @@ namespace JH.BuyShiny.Database.Migrations
                     PostId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
                     Down = table.Column<bool>(nullable: false),
-                    Up = table.Column<bool>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true)
+                    Up = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -198,11 +178,11 @@ namespace JH.BuyShiny.Database.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostVotes_Users_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_PostVotes_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -217,7 +197,7 @@ namespace JH.BuyShiny.Database.Migrations
                     ReplyTimeUtc = table.Column<DateTime>(nullable: false),
                     TradeVerified = table.Column<bool>(nullable: false),
                     UpVotes = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -237,12 +217,36 @@ namespace JH.BuyShiny.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserRole",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRole", x => new { x.UserId, x.RoleId });
+                    table.UniqueConstraint("AK_UserRole_RoleId_UserId", x => new { x.RoleId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_UserRole_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserRole_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ReplyReads",
                 columns: table => new
                 {
                     ReplyId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -254,11 +258,11 @@ namespace JH.BuyShiny.Database.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ReplyReads_Users_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_ReplyReads_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -268,8 +272,7 @@ namespace JH.BuyShiny.Database.Migrations
                     ReplyId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
                     Down = table.Column<bool>(nullable: false),
-                    Up = table.Column<bool>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true)
+                    Up = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -281,11 +284,11 @@ namespace JH.BuyShiny.Database.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ReplyVote_Users_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_ReplyVote_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -294,9 +297,9 @@ namespace JH.BuyShiny.Database.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostReads_UserId1",
+                name: "IX_PostReads_UserId",
                 table: "PostReads",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_UserId",
@@ -304,9 +307,9 @@ namespace JH.BuyShiny.Database.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostVotes_UserId1",
+                name: "IX_PostVotes_UserId",
                 table: "PostVotes",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Replies_PostId",
@@ -319,19 +322,19 @@ namespace JH.BuyShiny.Database.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReplyReads_UserId1",
+                name: "IX_ReplyReads_UserId",
                 table: "ReplyReads",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReplyVote_UserId1",
+                name: "IX_ReplyVote_UserId",
                 table: "ReplyVote",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRole_UserId1",
-                table: "UserRole",
-                column: "UserId1");
+                name: "IX_Roles_UserId",
+                table: "Roles",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_TimezoneId",

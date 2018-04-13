@@ -10,7 +10,7 @@ namespace JH.BuyShiny.Database
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Username { get; set; }
         public string EmailAddress { get; set; }
         public string PasswordHash { get; set; }
@@ -18,6 +18,6 @@ namespace JH.BuyShiny.Database
         public bool Active { get; set; }
         public bool EmailVerified { get; set; }
         public virtual Timezone Timezone { get; set; }
-        public virtual ICollection<UserRole> Roles { get; set; }
+        public virtual ICollection<Role> Roles { get; set; }
     }
 }

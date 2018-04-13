@@ -10,8 +10,8 @@ using System;
 namespace JH.BuyShiny.Database.Migrations
 {
     [DbContext(typeof(BuyShinyContext))]
-    [Migration("20180413010146_Initial")]
-    partial class Initial
+    [Migration("20180413190437_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,7 +28,7 @@ namespace JH.BuyShiny.Database.Migrations
 
                     b.Property<DateTime>("ResetRequestDate");
 
-                    b.Property<string>("UserId");
+                    b.Property<int?>("UserId");
 
                     b.HasKey("Code");
 
@@ -58,7 +58,7 @@ namespace JH.BuyShiny.Database.Migrations
 
                     b.Property<int>("UpVotes");
 
-                    b.Property<string>("UserId");
+                    b.Property<int?>("UserId");
 
                     b.HasKey("Id");
 
@@ -73,11 +73,9 @@ namespace JH.BuyShiny.Database.Migrations
 
                     b.Property<int>("UserId");
 
-                    b.Property<string>("UserId1");
-
                     b.HasKey("PostId", "UserId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("PostReads");
                 });
@@ -92,11 +90,9 @@ namespace JH.BuyShiny.Database.Migrations
 
                     b.Property<bool>("Up");
 
-                    b.Property<string>("UserId1");
-
                     b.HasKey("PostId", "UserId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("PostVotes");
                 });
@@ -118,7 +114,7 @@ namespace JH.BuyShiny.Database.Migrations
 
                     b.Property<int>("UpVotes");
 
-                    b.Property<string>("UserId");
+                    b.Property<int?>("UserId");
 
                     b.HasKey("Id");
 
@@ -135,11 +131,9 @@ namespace JH.BuyShiny.Database.Migrations
 
                     b.Property<int>("UserId");
 
-                    b.Property<string>("UserId1");
-
                     b.HasKey("ReplyId", "UserId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("ReplyReads");
                 });
@@ -154,11 +148,9 @@ namespace JH.BuyShiny.Database.Migrations
 
                     b.Property<bool>("Up");
 
-                    b.Property<string>("UserId1");
-
                     b.HasKey("ReplyId", "UserId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("ReplyVote");
                 });
@@ -172,7 +164,11 @@ namespace JH.BuyShiny.Database.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<int?>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Roles");
                 });
@@ -193,7 +189,7 @@ namespace JH.BuyShiny.Database.Migrations
 
             modelBuilder.Entity("JH.BuyShiny.Database.User", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Active");
@@ -223,13 +219,9 @@ namespace JH.BuyShiny.Database.Migrations
 
                     b.Property<int>("RoleId");
 
-                    b.Property<string>("UserId1");
-
                     b.HasKey("UserId", "RoleId");
 
                     b.HasAlternateKey("RoleId", "UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("UserRole");
                 });
@@ -241,7 +233,7 @@ namespace JH.BuyShiny.Database.Migrations
 
                     b.Property<DateTime>("ExpirationDateUtc");
 
-                    b.Property<string>("UserId");
+                    b.Property<int?>("UserId");
 
                     b.Property<DateTime?>("VerifiedAtUtc");
 
@@ -275,7 +267,8 @@ namespace JH.BuyShiny.Database.Migrations
 
                     b.HasOne("JH.BuyShiny.Database.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("JH.BuyShiny.Database.PostVote", b =>
@@ -287,7 +280,8 @@ namespace JH.BuyShiny.Database.Migrations
 
                     b.HasOne("JH.BuyShiny.Database.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("JH.BuyShiny.Database.Reply", b =>
@@ -310,7 +304,8 @@ namespace JH.BuyShiny.Database.Migrations
 
                     b.HasOne("JH.BuyShiny.Database.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("JH.BuyShiny.Database.ReplyVote", b =>
@@ -322,7 +317,15 @@ namespace JH.BuyShiny.Database.Migrations
 
                     b.HasOne("JH.BuyShiny.Database.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("JH.BuyShiny.Database.Role", b =>
+                {
+                    b.HasOne("JH.BuyShiny.Database.User")
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("JH.BuyShiny.Database.User", b =>
@@ -340,8 +343,9 @@ namespace JH.BuyShiny.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("JH.BuyShiny.Database.User", "User")
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId1");
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("JH.BuyShiny.Database.UserVerify", b =>
