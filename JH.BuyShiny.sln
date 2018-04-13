@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F664017F-04D2-4172-9307-DE683211B0AB}"
 	ProjectSection(SolutionItems) = preProject
 		Design notes.txt = Design notes.txt
+		Linux deployment.txt = Linux deployment.txt
 		MySQL Info.txt = MySQL Info.txt
 	EndProjectSection
 EndProject

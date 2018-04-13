@@ -1,0 +1,13 @@
+https://cloud.digitalocean.com/settings/team/?i=4653ab
+
+Main reference article I used
+https://www.junian.net/2017/01/running-your-first-aspnet-core-web-app-on-ubuntu-16-04.html
+
+Microsoft guide on deploying ASP.NET Core to Linux
+https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-2.1&tabs=aspnetcore2x
+
+The Linux server I'm using is setup at
+https://cloud.digitalocean.com/droplets/85000443/
+
+Username: root
+Password: buyshiny  (I know dumb but I can always reset it)
