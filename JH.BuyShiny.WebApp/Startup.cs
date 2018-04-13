@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JH.BuyShiny.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,6 +25,11 @@ namespace JH.BuyShiny.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            // Setup MySQL connection
+            services.AddDbContext<BuyShinyContext>(options =>
+                options.UseMySQL(Configuration.GetConnectionString("BuyShinyContext")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

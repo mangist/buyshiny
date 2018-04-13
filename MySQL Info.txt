@@ -1,0 +1,4 @@
+Important:
+When starting out with a new MySQL installation, you must run this on the database first
+
+CREATE TABLE `__EFMigrationsHistory` ( `MigrationId` nvarchar(150) NOT NULL, `ProductVersion` nvarchar(32) NOT NULL, PRIMARY KEY (`MigrationId`) );
