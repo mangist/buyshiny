@@ -23,7 +23,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JH.BuyShiny.Database\JH.BuyShiny.Database.csproj" />
+    <None Remove="ClientApp\components\PostsList.tsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JH.BuyShiny.DataAccess\DataAccess.csproj" />
+    <ProjectReference Include="..\JH.BuyShiny.Database\Database.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\components\PostsList.tsx" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

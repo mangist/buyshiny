@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CDA.YourStoreApp.WebPortal;
+using JH.BuyShiny.Contracts;
+using JH.BuyShiny.DataAccess;
 using JH.BuyShiny.Database;
 using JH.BuyShiny.WebApp.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -54,6 +56,9 @@ namespace JH.BuyShiny.WebApp
                 .AddDefaultTokenProviders();
                 
             services.AddScoped<IPasswordHasher<BuyShinyUser>, BuyShinyPasswordHasher>();
+
+            // Database repositories for getting access to EF Model
+            services.AddScoped<IPostRepository, PostRepository>();
 
             //// This was added by me based on https://docs.microsoft.com/en-us/aspnet/identity/overview/extensibility/change-primary-key-for-users-in-aspnet-identity
             //var dataProtectionProvider = options.DataProtectionProvider;

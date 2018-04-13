@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JH.BuyShiny.Contracts\Contracts.csproj" />
+    <ProjectReference Include="..\JH.BuyShiny.Database\Database.csproj" />
+  </ItemGroup>
+
+</Project>
